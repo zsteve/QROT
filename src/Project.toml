@@ -1,0 +1,8 @@
+[deps]
+GraphRecipes = "bd48cda9-67a9-57be-86fa-5b3c104eda73"
+ManifoldLearning = "06eb3307-b2af-5a2a-abea-d33192699d32"
+OptimalTransport = "7e02d93a-ae51-4f58-b602-d97af76e3b33"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
+SimpleWeightedGraphs = "47aef6b3-ad0c-573a-a1e2-d07658019622"
