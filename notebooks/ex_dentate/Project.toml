@@ -1,6 +1,10 @@
 [deps]
+ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
 HNSW = "540f64fa-c57e-11e8-081c-41422cda4629"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+LogExpFunctions = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
 NearestNeighborDescent = "dd2c4c9e-a32f-5b2f-b342-08c2f244fce8"
 OptimalTransport = "7e02d93a-ae51-4f58-b602-d97af76e3b33"
 ParallelNeighbors = "195f4218-6b04-4c05-a00e-4e57ae4ff715"
 RandomMatrix = "0af1cf96-9b30-454e-9d9e-87908f700846"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"

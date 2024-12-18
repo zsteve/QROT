@@ -1,6 +1,0 @@
-[deps]
-HNSW = "540f64fa-c57e-11e8-081c-41422cda4629"
-NearestNeighborDescent = "dd2c4c9e-a32f-5b2f-b342-08c2f244fce8"
-OptimalTransport = "7e02d93a-ae51-4f58-b602-d97af76e3b33"
-ParallelNeighbors = "195f4218-6b04-4c05-a00e-4e57ae4ff715"
-RandomMatrix = "0af1cf96-9b30-454e-9d9e-87908f700846"

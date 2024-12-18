@@ -8,6 +8,9 @@ using LinearAlgebra
 using StatsBase
 using ProgressMeter
 using Random
+using NNlib
+
+Random.seed!(0)
 
 X_df = CSV.read("clone_hist_coarse_norm.csv", DataFrame)[!, 2:end] |> Array
 X_df .+= 1e-6
@@ -34,7 +37,7 @@ for n_landmark in ns
     Sxx_nys = Sxy_nys[:, landmark_idx]
     Kxy_nys = exp.(-Sxy_nys / h)
     Kxx_nys = exp.(-Sxx_nys / h)
-    K_nys = Kxy_nys' * pinv(Kxx_nys) * Kxy_nys
+    K_nys = Kxy_nys' * pinv(Kxx_nys; rtol = 1e-6) * Kxy_nys
     push!(Ks_nys, K_nys)
     CSV.write("K_nys_$(n_landmark).csv", DataFrame(K_nys, :auto))
 end 

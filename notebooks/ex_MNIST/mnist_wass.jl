@@ -86,7 +86,7 @@ C /= mean(C)
 
 # Calculate true distances (using GPU)
 X_norm = X ./ sum(X; dims = 1)
-ε = 0.1
+ε = 0.05
 Sxx = [sinkhorn2(x, x, C, ε) for x in eachcol(X_norm)]
 C_cu = _cu(C)
 X_norm_cu = _cu(X_norm)
@@ -109,7 +109,7 @@ for n_landmark in ns
     Sxx_nys = Sxy_nys[:, landmark_idx]
     Kxy_nys = exp.(-Sxy_nys / h)
     Kxx_nys = exp.(-Sxx_nys / h)
-    K_nys = relu.(Kxy_nys' * pinv(Kxx_nys) * Kxy_nys)
+    K_nys = Kxy_nys' * pinv(Kxx_nys, rtol = 1e-6) * Kxy_nys
     push!(Ks_nys, K_nys)
 end 
 
@@ -156,7 +156,7 @@ if args["save_mats"] CSV.write(joinpath(args["outdir"], "K_w_$(args["w"]).csv"),
 ks = 5:5:125
 pca_op = fit(PCA, X; maxoutdim = 50);
 X_pca = predict(pca_op, X);
-K_knn = [knn_adj(X, x) for x in ks]
+K_knn = [norm_kernel(symm(knn_adj(X, x)), :sym) for x in ks]
 if args["save_mats"]
     for (k, K) in zip(ks, K_knn)
         CSV.write(joinpath(args["outdir"], "K_knn_$(k)_w_$(args["w"]).csv"), DataFrame(K, :auto))

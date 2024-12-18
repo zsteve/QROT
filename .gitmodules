@@ -1,3 +1,6 @@
 [submodule "tools/OptimalTransport.jl"]
 	path = tools/OptimalTransport.jl
 	url = https://github.com/zsteve/OptimalTransport.jl
+[submodule "tools/OT-scOmics"]
+	path = tools/OT-scOmics
+	url = https://github.com/cantinilab/OT-scOmics
