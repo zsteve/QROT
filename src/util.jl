@@ -31,7 +31,7 @@ function kernel_ot_quad(X, ε; diag_inf = true, rtol = 1e-6, atol = 1e-6, potent
     return potentials ? (K, solver.cache.u) : K
 end
 
-kernel_epanech = (X, ε; rtol = 1e-6, atol = 1e-9) -> norm_kernel(symm(relu.(1 .- get_cost(X; diag_inf = false)/ε)), :sym)
+kernel_epanech = (X, ε; rtol = 1e-6, atol = 1e-9) -> symm(relu.(1 .- get_cost(X; diag_inf = false)/ε))
 
 function kernel_gaussian_l2_proj(X, ε; diag_inf = true, rtol = 1e-6, atol = 1e-6, potentials = false, kwargs...)
     K = form_kernel(X, ε)

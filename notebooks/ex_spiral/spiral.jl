@@ -104,13 +104,13 @@ end
 sp_la = pyimport_conda("scipy.linalg", "scipy")
 
 # Compute reference eigenvector embedding
-function rw_norm_eigvecs(W)
-    # Compute row-normalized eigenvectors for symmetric W
-    D = Diagonal(vec(sum(W; dims = 2)))
-    D^(-1/2) * eigen(Hermitian(W)).vectors
-end
+# function rw_norm_eigvecs(W)
+#     # Compute row-normalized eigenvectors for symmetric W
+#     D = Diagonal(vec(sum(W; dims = 2)))
+#     D^(-1/2) * eigen(Hermitian(W)).vectors
+# end
 K_ref = norm_kernel(form_kernel(X_orig_lowdim, 0.05; k = 3), :sym)
-U_ref = rw_norm_eigvecs(K_ref)[:, end:-1:1];
+U_ref = eigen(K_ref).vectors[:, end:-1:1];
 
 eps_quad = 10 .^range(-2, 2, 25)
 # if args["eps_quad_idx"] > 0
@@ -153,7 +153,7 @@ theta_ent_fat = @showprogress map(x -> get_theta(Hermitian(kernel_ot_ent(X, x, d
 @info "method: knn"
 theta_knn = @showprogress map(x -> get_theta(save(Hermitian(Array(norm_kernel(symm(knn_adj(X, x)), :sym))), "K_knn_k_$(x)_$(suffix).npy"; cond = args["save_mats"] && (x == ks[args["k_idx"]]))), ks)
 @info "method: epanechnikov"
-theta_epanech = @showprogress map(x -> get_theta(save(Hermitian(kernel_epanech(X, x)), "K_epanech_eps_$(x)_$(suffix).npy"; cond = args["save_mats"] && (x == eps_epanech[args["eps_epanech_idx"]]))), eps_epanech)
+theta_epanech = @showprogress map(x -> get_theta(save(Hermitian(norm_kernel(kernel_epanech(X, x), :sym)), "K_epanech_eps_$(x)_$(suffix).npy"; cond = args["save_mats"] && (x == eps_epanech[args["eps_epanech_idx"]]))), eps_epanech)
 @info "method: gaussian"
 theta_gauss = @showprogress map(x -> get_theta(save(Hermitian(norm_kernel(form_kernel(X, x; k = Inf), :sym)), "K_gauss_eps_$(x)_$(suffix).npy"; cond = args["save_mats"] && (x == eps_ent[args["eps_gauss_idx"]]))), eps_ent)
 @info "method: gaussian_l2"

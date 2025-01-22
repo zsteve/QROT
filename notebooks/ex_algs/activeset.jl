@@ -23,7 +23,7 @@ s = ArgParseSettings()
 @add_arg_table s begin
 	"--N"
 	arg_type = Int
-	default = 5000
+	default = 5_000
     "--d" 
     arg_type = Int 
     default = 100
@@ -47,7 +47,7 @@ s = ArgParseSettings()
     default = false
     "--skipdense"
     arg_type = Bool
-    default = false
+    default = true
 end
 args = parse_args(s)
 Random.seed!(args["seed"])
@@ -55,9 +55,9 @@ Random.seed!(args["seed"])
 BLAS.set_num_threads(args["threads"])
 
 function gen_data(N, d)
-    μ_spt = randn(N, d)
+    μ_spt = randn(Float32, N, d)
     X = μ_spt
-    μ = ones(N)
+    μ = ones(Float32, N)
     C = sum(X.^2 ; dims = 2)/2 .+ sum(X.^2 ; dims = 2)'/2 - X * X'
     Cmean = mean(C)
     C[diagind(C)] .= Inf
@@ -92,7 +92,7 @@ d = args["d"]
 X, μ, C = gen_data(N, d);
 ENV["JULIA_DEBUG"] = ""; 
 if args["skipdense"]
-    elapsed_dense = [missing for _ in 1:11]
+    elapsed_dense = [(time = missing, bytes = missing) for _ in 1:11]
 else
     elapsed_dense = @showprogress [(@timed sparse(quadreg(μ, C, ε, OptimalTransport.SymmetricQuadraticOTNewton(); maxiter = 100)))[[:time, :bytes]] for _ in 1:11]
 end
